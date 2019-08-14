@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.linear_model import LassoLars
 from pandas.plotting import register_matplotlib_converters
 
 register_matplotlib_converters()
@@ -57,6 +58,21 @@ plt.show()
 # ---------------
 
 reg = KNeighborsRegressor(n_neighbors=7).fit(X, y)
+
+prediction = reg.predict(X_test)[0]
+
+print(prediction, "\n")
+print(prediction - y_test, "\n")
+print(np.linalg.norm(prediction - y_test), "\n")
+
+plt.plot(prediction, label="Prediction")
+plt.plot(df[future_columns].iloc[-1], label="real")  # iloc - select an element from specific position
+plt.legend()
+plt.show()
+
+# ---------------
+
+reg = LassoLars(alpha=.11).fit(X, y)
 
 prediction = reg.predict(X_test)[0]
 
