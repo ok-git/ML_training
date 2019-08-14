@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import LassoLars
+from sklearn import neural_network
 from pandas.plotting import register_matplotlib_converters
 
 register_matplotlib_converters()
@@ -73,6 +74,23 @@ plt.show()
 # ---------------
 
 reg = LassoLars(alpha=.11).fit(X, y)
+
+prediction = reg.predict(X_test)[0]
+
+print(prediction, "\n")
+print(prediction - y_test, "\n")
+print(np.linalg.norm(prediction - y_test), "\n")
+
+plt.plot(prediction, label="Prediction")
+plt.plot(df[future_columns].iloc[-1], label="real")  # iloc - select an element from specific position
+plt.legend()
+plt.show()
+
+# ----------------
+# neural
+
+reg = neural_network.MLPRegressor(hidden_layer_sizes=(100, ), activation='relu', solver='adam', alpha=0.0001, batch_size='auto', learning_rate='constant', learning_rate_init=0.001, power_t=0.5, max_iter=200, shuffle=True, random_state=None, tol=0.0001, verbose=False, warm_start=False, momentum=0.9, nesterovs_momentum=True, early_stopping=False, validation_fraction=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+reg = reg.fit(X, y)
 
 prediction = reg.predict(X_test)[0]
 
